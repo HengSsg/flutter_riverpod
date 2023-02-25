@@ -1,4 +1,5 @@
 import 'package:actual/common/const/colors.dart';
+import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantCard extends StatelessWidget {
@@ -34,6 +35,23 @@ class RestaurantCard extends StatelessWidget {
       required this.ratings})
       : super(key: key);
 
+  factory RestaurantCard.fromModel({
+    required RestaurantModel model,
+  }) {
+    return RestaurantCard(
+      image: Image.network(
+        model.thumbUrl,
+        fit: BoxFit.cover,
+      ),
+      name: model.name,
+      tags: model.tags,
+      ratingsCount: model.ratingsCount,
+      deliveryTime: model.deliveryTime,
+      deliveryFee: model.deliveryFee,
+      ratings: model.ratings,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,23 +60,23 @@ class RestaurantCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
           child: image,
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               tags.join(' · '),
-              style: TextStyle(color: BODY_TEXT_COLOR, fontSize: 14.0),
+              style: const TextStyle(color: BODY_TEXT_COLOR, fontSize: 14.0),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
                 _IconText(
@@ -89,7 +107,7 @@ class RestaurantCard extends StatelessWidget {
   }
 
   Widget renderDot() {
-    return Padding(
+    return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.0),
       child: Text(
         '·',
@@ -121,10 +139,10 @@ class _IconText extends StatelessWidget {
           color: PRIMARY_COLOR,
           size: 14.0,
         ),
-        SizedBox(width: 8.0),
+        const SizedBox(width: 8.0),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12.0,
             fontWeight: FontWeight.w500,
           ),
