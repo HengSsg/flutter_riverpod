@@ -1,4 +1,5 @@
 import 'package:actual/common/layout/default_layout.dart';
+import 'package:actual/product/component/product_card.dart';
 import 'package:actual/restaurant/component/restaurant_card.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class RestaurantDetailScreen extends StatelessWidget {
             isDetail: true,
             detail: '맛있는 떡볶이',
           ),
+          ProductCard()
         ],
       ),
     );
