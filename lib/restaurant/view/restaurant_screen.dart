@@ -37,15 +37,16 @@ class RestaurantScreen extends StatelessWidget {
               return ListView.separated(
                   itemBuilder: (context, index) {
                     final item = snapshot.data![index];
-                    final pItem = RestaurantModel.fromJson(json: item);
+                    final pItem = RestaurantModel.fromJson(
+                      item,
+                    );
 
                     return GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => RestaurantDetailScreen(
-                                id: pItem.id
-                              ),
+                              builder: (_) =>
+                                  RestaurantDetailScreen(id: pItem.id),
                             ),
                           );
                         },
