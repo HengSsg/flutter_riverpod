@@ -44,8 +44,18 @@ class CustomInterceptor extends Interceptor {
 
   // 3) 에러가 났을 때
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    // TODO: implement onError
-    super.onError(err, handler);
+  void onError(DioError err, ErrorInterceptorHandler handler) async {
+    // 401에러가 났을때
+    // 토큰을 재발급 받는 시도를 하고 토크이 재발급되면
+    // 다시 새로운 토큰으로 요청을 한다.
+    print('[ERR] [${err.requestOptions.method} ${err.requestOptions.uri}]');
+
+    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+
+    if (refreshToken == null) {
+      return handler.reject(err);
+    }
+
+    return super.onError(err, handler);
   }
 }
