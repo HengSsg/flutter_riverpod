@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'cursor_pagination_model.g.dart';
 
+/// 페이지네이션 클래스: data 부분에 다양한 클래스가 들어오기 때문에 <T>라는 제너릭을 넣어서 관리
 @JsonSerializable(
   genericArgumentFactories: true,
 )
