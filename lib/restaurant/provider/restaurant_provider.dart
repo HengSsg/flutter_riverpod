@@ -1,4 +1,5 @@
 import 'package:actual/common/model/cursor_pagination_model.dart';
+import 'package:actual/common/model/pagination_params.dart';
 import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:actual/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,6 +63,41 @@ class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
     // 2번 반환 상황
     if (fetchMore && (isLoading || isRefetching || isFetchingMore)) {
       return;
+    }
+
+    // PaginationParmas 생성
+    PaginationParams paginationParams = PaginationParams(
+      count: fetchCount,
+    );
+
+    // fetchMore
+    // 데이터를 추가로 더 가져오는 상황
+    if (fetchMore) {
+      final pState = state as CursorPagination;
+
+      state = CursorPaginationFetchingMore(
+        meta: pState.meta,
+        data: pState.data,
+      );
+
+      paginationParams = paginationParams.copyWith(
+        after: pState.data.last.id,
+      );
+    }
+    final resp = await repository.paginate(
+      paginationParams: paginationParams,
+    );
+
+    if (state is CursorPaginationFetchingMore) {
+      final pState = state as CursorPaginationFetchingMore;
+
+      // 기존 데이터에 새로운 데이터 추가
+      state = resp.copyWith(
+        data: [
+          ...pState.data,
+          ...resp.data,
+        ],
+      );
     }
   }
 }
