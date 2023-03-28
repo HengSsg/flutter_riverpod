@@ -26,6 +26,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
       index = controller.index;
     });
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -67,9 +68,9 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
         ],
       ),
       child: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         controller: controller,
-        children: [
+        children: const [
           RestaurantScreen(),
           Center(child: Text('음식')),
           Center(child: Text('주문')),

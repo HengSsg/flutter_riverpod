@@ -68,8 +68,8 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
               ),
               child: Center(
                 child: data is CursorPaginationFetchingMore
-                    ? CircularProgressIndicator()
-                    : Text('데이터가 마지막 데이터 입니다 ㅠㅠ'),
+                    ? const CircularProgressIndicator()
+                    : const Text('데이터가 마지막 데이터 입니다 ㅠㅠ'),
               ),
             );
           }

@@ -10,7 +10,6 @@ import 'package:actual/common/view/root_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -38,9 +37,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _Title(),
-                SizedBox(height: 16.0),
-                _SubTitle(),
+                const _Title(),
+                const SizedBox(height: 16.0),
+                const _SubTitle(),
                 Image.asset(
                   'asset/img/misc/logo.png',
                   width: MediaQuery.of(context).size.width / 3 * 2,
@@ -53,7 +52,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   hintText: '이메일을 입력해주세요',
                   // errorText: '에러가 있습니다.',
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 CustomTextFormField(
                   onChanged: (value) {
                     password = value;
@@ -62,7 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   hintText: '비밀번호를 입력해주세요',
                   obscureText: true,
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
                     final rawString = '$username:$password';
@@ -84,21 +83,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
                     storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => RootTab()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const RootTab()));
                     print(resp);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: PRIMARY_COLOR,
                   ),
-                  child: Text('로그인'),
+                  child: const Text('로그인'),
                 ),
                 TextButton(
                   onPressed: () async {},
                   style: TextButton.styleFrom(
                     primary: Colors.black,
                   ),
-                  child: Text('회원가입'),
+                  child: const Text('회원가입'),
                 )
               ],
             ),
@@ -114,7 +113,7 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       '환영합니다!',
       style: TextStyle(
         fontSize: 34,
@@ -130,7 +129,7 @@ class _SubTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       '이메일과 비밀번화를 입력해서 로그인 해주세요!\n오늘도 성공적인 주문이 되길',
       style: TextStyle(
         fontSize: 16,
