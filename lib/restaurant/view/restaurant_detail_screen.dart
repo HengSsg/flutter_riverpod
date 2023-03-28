@@ -10,8 +10,9 @@ import 'package:actual/restaurant/repository/restaurant_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skeletons/skeletons.dart';
 
-class RestaurantDetailScreen extends ConsumerWidget {
+class RestaurantDetailScreen extends ConsumerStatefulWidget {
   final String id;
 
   const RestaurantDetailScreen({
@@ -20,11 +21,24 @@ class RestaurantDetailScreen extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(restaurantDetailProvider(id));
+  ConsumerState<RestaurantDetailScreen> createState() =>
+      _RestaurantDetailScreenState();
+}
+
+class _RestaurantDetailScreenState
+    extends ConsumerState<RestaurantDetailScreen> {
+  @override
+  void initState() {
+    ref.read(restaurantProvider.notifier).getDetail(id: widget.id);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(restaurantDetailProvider(widget.id));
 
     if (state == null) {
-      return DefaultLayout(
+      return const DefaultLayout(
           child: Center(
         child: CircularProgressIndicator(),
       ));
@@ -35,9 +49,36 @@ class RestaurantDetailScreen extends ConsumerWidget {
       child: CustomScrollView(
         slivers: [
           renderTop(model: state),
-          // renderLabel(),
-          // renderProducts(products: state!),
+          if (state is! RestaurantDetailModel) renderLoading(),
+          if (state is RestaurantDetailModel) renderLabel(),
+          if (state is RestaurantDetailModel)
+            renderProducts(products: state.products),
         ],
+      ),
+    );
+  }
+
+  SliverPadding renderLoading() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16.0,
+        vertical: 16.0,
+      ),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate(
+          List.generate(
+            3,
+            (index) => Padding(
+              padding: const EdgeInsets.only(bottom: 32.0),
+              child: SkeletonParagraph(
+                style: const SkeletonParagraphStyle(
+                  lines: 5,
+                  padding: EdgeInsets.zero,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -64,7 +105,7 @@ class RestaurantDetailScreen extends ConsumerWidget {
           final model = products[index];
 
           return Padding(
-            padding: EdgeInsets.only(top: 16.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: ProductCard.fromModel(
               model: model,
             ),
