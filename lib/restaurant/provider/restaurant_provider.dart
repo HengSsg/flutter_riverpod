@@ -4,6 +4,7 @@ import 'package:actual/restaurant/model/restaurant_model.dart';
 import 'package:actual/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// 디테일 프로바이더
 final restaurantDetailProvider =
     Provider.family<RestaurantModel?, String>((ref, id) {
   final state = ref.watch(restaurantProvider);
@@ -15,6 +16,7 @@ final restaurantDetailProvider =
   return state.data.firstWhere((element) => element.id == id);
 });
 
+// 레스토랑 프로바이더
 final restaurantProvider =
     StateNotifierProvider<RestaurantStateNotifier, CursorPaginationBase>(
   (ref) {
